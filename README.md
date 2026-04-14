@@ -1,1 +1,1 @@
-visit - curr.xyz
+visit - [curr.xyz](https://curr.xyz)

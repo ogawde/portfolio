@@ -1,0 +1,113 @@
+---
+id: 4
+title: "How I Finally Started Understanding React Hooks Instead of Memorizing Them"
+excerpt: "I used React hooks a lot before I actually understood them."
+---
+
+I used React hooks a lot before I actually understood them.
+
+## When patterns stopped being enough
+
+useState, useEffect, useMemo - I knew when to use them. At least, I thought I did.
+I had patterns in my head.
+"Need to fetch data? useEffect."
+"Need to store something? useState."
+"Performance issue? maybe useMemo."
+
+It worked.
+Until it didn't.
+
+Because the moment something behaved unexpectedly, I had no idea why.
+Infinite re-renders. Stale values. Weird bugs that didn't make sense.
+And my only solution was trial and error.
+Change dependency array. Add a console.log. Try something random.
+
+Sometimes it worked.
+Most of the time, I didn't learn anything.
+
+I was using hooks like magic functions.
+That's the problem with memorization.
+It gives you speed without understanding.
+And hooks punish that.
+
+The worst part was the false confidence.
+If the app worked, I assumed my mental model was correct.
+But production bugs kept proving otherwise.
+
+I had syntax knowledge.
+I didn't have behavior knowledge.
+
+## The mental model shift
+
+The shift started when I stopped treating hooks as tools... and started treating them as behaviors.
+Instead of asking:
+"When should I use this?"
+I started asking:
+"What is React actually doing here?"
+
+That question changes everything.
+
+For example, useEffect.
+Earlier, I thought: "Runs after render."
+That's technically true. But incomplete.
+When I dug deeper, I started seeing it differently:
+It's not about "after render."
+It's about syncing something outside React with what just happened inside React.
+
+That small shift made things clearer. Suddenly, dependency arrays made sense.
+
+I also stopped treating dependency arrays as "annoying warnings."
+They became part of the contract.
+If an effect reads something, React needs to know.
+If I hide dependencies, I'm creating timing bugs on purpose.
+
+Same with useState.
+I used to treat it like a variable.
+But it's not. It's a trigger.
+Setting state isn't just assigning a value. It's telling React: "Something changed. Re-evaluate this component."
+
+Once that clicked, a lot of weird bugs made sense.
+
+useMemo became clearer too.
+Not a performance sticker to slap everywhere.
+Just a way to preserve expensive computation when inputs are stable.
+If the computation is cheap, memoization is usually noise.
+
+That one realization removed a lot of unnecessary complexity from my code.
+
+## Learning by breaking things
+
+I also changed how I learned.
+Instead of reading docs passively, I started experimenting.
+Break things intentionally. Remove dependencies. Add unnecessary ones. See what happens.
+That kind of learning sticks.
+
+Another thing that helped was slowing down.
+Earlier, I'd rush to "fix the bug."
+Now, I'd pause and ask: "Why did this break in the first place?"
+
+I started writing tiny experiments in isolated components.
+One hook, one behavior, one question.
+No app complexity.
+Just signal.
+
+That made concepts stick faster than reading another medium post.
+
+Over time, hooks stopped feeling confusing.
+Not because I memorized more patterns.
+But because I understood the underlying model.
+
+And once the model is clear, docs become much easier to read.
+You stop searching for recipes.
+You start validating assumptions.
+
+## What I'd do differently
+
+**If I had to restart, I'd approach hooks very differently:**
+
+- Focus on what React is doing, not just what the hook does
+- Avoid memorizing patterns without understanding them
+- Break things intentionally to see behavior
+- Explain hooks in plain language, not technical terms
+- Treat bugs as signals, not annoyances
+- And most importantly: I'd stop asking "which hook should I use?" And start asking: "What's actually happening here?"

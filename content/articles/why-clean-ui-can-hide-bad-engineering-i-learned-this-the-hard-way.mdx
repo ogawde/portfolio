@@ -1,0 +1,83 @@
+---
+id: 7
+title: "Why Clean UI Can Hide Bad Engineering (I Learned This the Hard Way)"
+excerpt: "I used to take a lot of pride in how my apps looked."
+---
+
+I used to take a lot of pride in how my apps looked.
+Smooth layouts. Clean spacing. Nice components. Everything felt polished.
+And honestly, people noticed.
+
+## The polish trap
+
+Good UI gets attention. It creates a strong first impression.
+And for a while, that was enough.
+
+But behind that clean interface... things weren't as solid.
+Logic was messy. State was inconsistent. Components were doing too much.
+I just didn't notice it. Because everything looked fine.
+
+Good UI gave me a false sense of quality.
+That's the trap.
+
+Because visual polish is visible.
+Engineering quality is mostly invisible until something changes.
+And software always changes.
+
+I started noticing this when making small changes became harder than expected.
+A simple update would break something unrelated. Fixing one issue would introduce another.
+
+The problem wasn't the UI.
+It was everything underneath it.
+
+I had components that looked clean but carried too many responsibilities:
+- Fetching data
+- Transforming data
+- Handling local state
+- Rendering UI
+- Triggering side effects
+
+All in one file.
+It worked, until it didn't.
+
+## Shifting focus to internal clarity
+
+The shift came when I started valuing internal clarity more than external polish.
+I began asking different questions:
+
+- Can I understand this code quickly?
+- Can I change this without breaking other parts?
+- Is this logic reusable or just working "for now"?
+
+Those questions changed how I built.
+I started simplifying components. Moving logic out where it made sense. Keeping things predictable.
+
+I also started noticing naming quality.
+If I needed comments to explain every function, naming was probably weak.
+Clear names reduced mental load more than clever abstractions.
+
+Another useful shift:
+I stopped optimizing the happy path only.
+I gave equal attention to loading, empty, and error states.
+Not just for UX.
+For code clarity too.
+
+And interestingly, my UI didn't suffer.
+If anything, it became easier to improve. Because the foundation was stronger.
+
+Design iterations became faster.
+I could change layout without fear.
+Because logic and presentation were no longer tightly coupled.
+
+## What I'd do differently
+
+**If I had to restart, I'd balance things differently:**
+
+- Focus on structure before styling
+- Keep components small and focused
+- Avoid mixing too many responsibilities
+- Refactor early, not after things break
+- Treat UI as a layer, not the core
+- And most importantly: I'd stop judging my projects by how they look. And start judging them by how they hold up when I try to change them.
+
+Because that's where the truth shows up.

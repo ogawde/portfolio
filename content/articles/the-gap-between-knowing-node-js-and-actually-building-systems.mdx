@@ -1,0 +1,168 @@
+---
+id: 6
+title: "The Gap Between Knowing Node.js and Actually Building Systems"
+excerpt: "I thought I knew Node.js."
+---
+
+I thought I knew Node.js.
+I could set up an Express server. Create routes. Connect a database. Handle requests. Return responses.
+Everything worked. At least on the surface.
+
+## The difference between features and systems
+
+But once things got slightly more complex, everything started feeling... messy.
+Code became harder to manage. Changes started breaking unrelated parts. Debugging took longer than expected.
+
+I knew how to build features. I didn't know how to build systems.
+
+That's a different skill.
+
+Features answer:
+"Can I make this work?"
+
+Systems answer:
+"Can this keep working when requirements change?"
+
+That second question is where most of my backend code failed.
+
+## Thinking in responsibilities
+
+I started looking at my backend differently.
+Not as a place to "handle requests." But as a system with responsibilities.
+
+Separation of concerns became real.
+Controllers shouldn't contain business logic.
+Database queries shouldn't be everywhere.
+Error handling shouldn't be an afterthought.
+
+I also learned that "clean architecture" doesn't mean adding six folders for every tiny project.
+It just means making responsibilities obvious.
+So when something breaks, I know where to look.
+
+I also started paying attention to flow.
+What happens from the moment a request hits the server? Where does it go? What gets triggered? What depends on what?
+
+Mapping request flow was surprisingly useful.
+Even a rough text outline helped:
+request -> validation -> service -> repository -> response
+
+Whenever I skipped this clarity, bugs spread faster.
+
+Another big shift was handling async behavior properly.
+Not just "await everything." But understanding how things interact.
+
+Race conditions, duplicate writes, and timeouts taught me this quickly.
+The issue was rarely syntax.
+It was coordination.
+
+I learned this from a very simple endpoint.
+Create order.
+Decrease inventory.
+Send confirmation email.
+
+On paper, easy.
+In production, messy.
+
+If email failed after order creation, what now?
+If the same request was sent twice, would we create duplicate orders?
+If inventory update timed out, do we roll back or retry?
+
+Those are system questions.
+And they don't disappear just because the route returns `200`.
+
+I began adding small guardrails:
+- idempotent operations where possible
+- timeouts for external calls
+- explicit retries only when safe
+
+Not enterprise-level complexity.
+Just enough to avoid fragile behavior.
+
+One small pattern helped me a lot:
+
+```ts
+type CreateOrderInput = {
+  userId: string;
+  productId: string;
+  idempotencyKey: string;
+};
+
+export async function createOrder(input: CreateOrderInput) {
+  const existing = await orderRepo.findByKey(input.idempotencyKey);
+  if (existing) return existing;
+
+  const stock = await inventoryRepo.getAvailable(input.productId);
+  if (stock < 1) throw new Error("Out of stock");
+
+  return orderRepo.create(input);
+}
+```
+
+This is not advanced.
+But it protects against duplicate actions and makes behavior predictable.
+
+## Observability changed how I debugged
+
+Earlier, when something failed, I only had stack traces.
+No context.
+No timeline.
+No clue what happened before failure.
+
+So I started adding lightweight structured logs.
+Just enough fields to follow request flow:
+
+```ts
+logger.info("order.create.started", {
+  requestId,
+  userId,
+  productId,
+});
+```
+
+Then:
+- `order.create.validation_failed`
+- `order.create.inventory_checked`
+- `order.create.persisted`
+- `order.create.completed`
+
+That sequence made debugging 10x easier.
+I stopped guessing.
+I started tracing.
+
+## Designing for change, not just today
+
+Another hard lesson:
+The first version of code is rarely the final shape.
+New requirements always come.
+Partial refunds.
+Role-based access.
+Audit trails.
+Background processing.
+
+If everything is tightly coupled in handlers, every change becomes a rewrite.
+
+So I started asking one extra question during implementation:
+"Where will this logic live when it grows?"
+
+That question helped me avoid fake shortcuts.
+Because shortcuts are only fast once.
+After that, they become debt.
+
+## What I'd do differently
+
+I also began simplifying.
+Fewer abstractions. Clearer structure. More predictable flow.
+
+One practical rule helped a lot:
+If a new teammate can't guess where code lives, the structure is failing.
+
+**If I had to restart, I'd focus less on frameworks... and more on fundamentals:**
+
+- Separate logic into clear layers
+- Keep functions focused and predictable
+- Handle errors intentionally, not reactively
+- Understand request flow deeply
+- Think about how things scale, even in small apps
+- And most importantly: I'd stop asking "does this endpoint work?" And start asking: "Can this system handle change?"
+
+Because it will have to.

@@ -1,0 +1,132 @@
+---
+alwaysApply: true
+---
+---
+description: UI component library preferences and lookup strategy for this project
+globs: ["**/*.tsx", "**/*.jsx", "**/*.ts"]
+alwaysApply: true
+---
+
+# UI Component Libraries — Agent Reference
+
+Before writing any UI component, animation, or layout, consult this reference to pick the right source. Always prefer pulling from these libraries over writing from scratch.
+
+---
+
+## 🎬 Animation-First (GSAP / Motion)
+
+### motion-primitives
+- **URL**: https://motion-primitives.com/docs
+- **Best for**: Motion-based React components, entrance animations, layout transitions
+- **Stack**: Motion (Framer Motion v11), Tailwind
+- **Use when**: You need animated wrappers, morphing, staggered reveals
+
+### buildui (recipes)
+- **URL**: https://buildui.com/recipes
+- **Best for**: Raw motion.dev code snippets — spring animations, drag, gestures
+- **Use when**: You need low-level animation logic, not a pre-built component
+
+### animate-ui
+- **URL**: https://animate-ui.com/docs/components
+- **Best for**: General animated UI components
+- **Use when**: You want drop-in animated components without heavy setup
+
+### 21st.dev community
+- **URL**: https://21st.dev/community/components
+- **Best for**: High-quality GSAP + Motion animated components from community
+- **Use when**: You want polished, non-generic animated components
+
+---
+
+## ✨ High Quality / Niche
+
+### fancycomponents.dev
+- **URL**: https://www.fancycomponents.dev/components
+- **Best for**: Highly specific, creative UI components
+- **Use when**: You need something distinctive and unusual
+
+### daddy.design
+- **URL**: https://daddy.design/components
+- **Best for**: Boutique, high-quality components — fewer options but exceptional craft
+- **Use when**: Quality > quantity, niche interactions
+
+### forgeui
+- **URL**: https://forgeui.in/components/animated-form
+- **Best for**: Animated forms and input components
+- **Use when**: Building forms that need polish and motion
+
+---
+
+## 🧱 General Ready-to-Use (shadcn-style)
+
+### reui
+- **URL**: https://reui.io/docs/get-started
+- **Best for**: Finished, production-ready components
+- **Use when**: You need something working fast with minimal customization
+
+### heroui
+- **URL**: https://heroui.com/docs/react/components
+- **Best for**: Full React component library
+- **Use when**: You need a complete design system baseline
+
+### daisyui
+- **URL**: https://daisyui.com/components/
+- **Best for**: Tailwind CSS component classes
+- **Use when**: You want utility-class-based components with no JS overhead
+
+---
+
+## 🌌 Visual Effects / Backgrounds
+
+### patterncraft
+- **URL**: https://patterncraft.fun/
+- **Best for**: Background patterns, ready to use
+- **Use when**: You need decorative SVG/CSS background patterns
+
+### aceternity ui
+- **URL**: https://ui.aceternity.com/components
+- **Best for**: Dramatic visual effects, glows, beams, spotlight effects
+- **Use when**: Hero sections, landing page wow-factor elements
+
+---
+
+## 📊 Charts
+
+### evilcharts
+- **URL**: https://evilcharts.com/
+- **Best for**: Chart components
+- **Use when**: Building dashboards or data visualizations
+
+---
+
+## 🔊 Audio / Voice UI
+
+### elevenlabs ui
+- **URL**: https://ui.elevenlabs.io/docs/components
+- **Best for**: Voice/audio-related UI components
+- **Use when**: Building anything voice or audio-adjacent
+
+---
+
+## 📦 Decision Priority (follow this order)
+
+1. **Animation needed?** → motion-primitives → animate-ui → 21st.dev
+2. **Low-level animation logic?** → buildui recipes
+3. **Niche/distinctive look?** → fancycomponents → daddy.design
+4. **Animated form?** → forgeui
+5. **Fast, production-ready?** → reui → heroui
+6. **Background/visual effect?** → patterncraft → aceternity
+7. **Chart?** → evilcharts
+8. **Tailwind utility components?** → daisyui
+
+---
+
+## Agent Behavior Rules
+
+- **Always fetch the component docs page** from the relevant library before writing implementation code
+- **Never write animation logic from scratch** if motion-primitives or buildui has a recipe for it
+- **Check aceternity or 21st.dev** before writing any hero section or landing page element
+- When a component exists in multiple libraries, **prefer the one with Motion/GSAP** over plain CSS
+- For shadcn-based projects, **check if the component already exists in shadcn/ui** before going to reui or heroui
+```
+

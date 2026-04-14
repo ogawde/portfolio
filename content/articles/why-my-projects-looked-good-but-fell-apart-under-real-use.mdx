@@ -1,0 +1,153 @@
+---
+id: 5
+title: "Why My Projects Looked Good but Fell Apart Under Real Use"
+excerpt: "For a while, my projects looked solid."
+---
+
+For a while, my projects looked solid.
+Clean UI. Smooth interactions. Everything worked exactly how I expected it to. If someone asked for a demo, I could walk through it confidently.
+
+## Demo-ready is not production-ready
+
+Nothing broke.
+Because I was controlling everything.
+
+The moment someone else used it... things changed.
+Buttons didn't behave as expected. Edge cases showed up. Flows broke in ways I never imagined.
+And suddenly, my "complete" project felt fragile.
+
+It worked perfectly - as long as I was the only user.
+
+That realization was uncomfortable.
+I had been focusing on how things looked, not how they behaved under pressure.
+I was building for the happy path. Everything else was ignored.
+
+Happy path coding feels efficient.
+You get quick wins.
+But real users don't follow scripts.
+
+That's not how people use software.
+People click fast. They refresh randomly. They leave things half-done. They do things in the "wrong" order.
+
+I also underestimated timing issues.
+Double clicks.
+Slow networks.
+Actions triggered before previous ones finished.
+Those things exposed weak assumptions in my state logic immediately.
+
+## Testing for real user behavior
+
+I also realized I wasn't thinking about state properly.
+Good design was masking weak logic.
+
+The shift happened when I stopped treating my projects like demos and started treating them like products.
+
+I began testing things differently.
+Not just "does this work?"
+But: What if this fails? What if this runs twice? What if the user does this out of order?
+
+I started adding tiny stress checks during development:
+- Click submit repeatedly
+- Navigate away during save
+- Refresh mid-flow
+- Send incomplete payloads
+
+These weren't full QA processes.
+Just practical pressure tests that revealed fragile behavior early.
+
+I also started breaking my own apps intentionally.
+Invalid data. Fast clicks. Repeated actions.
+And almost every time, something would break.
+That wasn't a failure. That was feedback.
+
+Once I treated breakage as feedback, quality improved faster.
+I stopped taking bugs personally.
+I started taking them as design signals.
+
+## The bugs I kept missing
+
+Most of my failures were boring.
+Not deep algorithm issues.
+Just missed assumptions.
+
+For example, this happened a lot:
+
+```ts
+async function onSubmit() {
+  await saveProfile(formData);
+  setIsSaved(true);
+}
+```
+
+Looks fine.
+Until the user double-clicks.
+Now two requests go out.
+One fails, one succeeds.
+UI state gets weird.
+
+So I started building small protections by default:
+
+```ts
+async function onSubmit() {
+  if (isSubmitting) return;
+  setIsSubmitting(true);
+
+  try {
+    await saveProfile(formData);
+    setIsSaved(true);
+  } finally {
+    setIsSubmitting(false);
+  }
+}
+```
+
+Not fancy.
+Just defensive enough for real behavior.
+
+Another common one:
+optimistic UI without rollback.
+I would update state immediately, then forget failure cleanup.
+So the UI looked successful even when the request failed.
+
+That kind of mismatch destroys trust quickly.
+
+## Thinking in state transitions
+
+I also stopped thinking in screens.
+I started thinking in states.
+
+Instead of:
+"Profile page"
+
+I moved to:
+"idle -> submitting -> success -> error"
+
+That tiny shift made edge cases easier to see.
+Because every user action had to move state somewhere valid.
+
+If I couldn't explain the transition, I knew the flow was fragile.
+
+## A quick stress checklist I use now
+
+Before calling a feature "done", I run a short checklist:
+- What happens on slow network?
+- What happens on double action?
+- What happens if request fails after optimistic update?
+- What happens if user refreshes in the middle of flow?
+- What happens if API returns partial data?
+
+This takes minutes.
+But it catches issues that demos never expose.
+
+## What I'd do differently
+
+**If I had to restart, I'd build differently:**
+
+- Design for failure, not just success
+- Test weird and unexpected user behavior
+- Think about state transitions, not just UI
+- Assume users will do things "wrong"
+- Treat every feature like it can break
+- And most importantly: I'd stop asking "does this work?" And start asking: "How easily can this break?"
+
+Because in real use, it will.
