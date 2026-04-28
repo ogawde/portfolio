@@ -76,15 +76,33 @@ export function StickyFooterSection() {
 
         <div className="text-right">
           <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Available for work</p>
-          <button
-            type="button"
-            data-cal-namespace={calNamespace}
-            data-cal-link={calLink}
-            data-cal-config={calConfig}
-            className="mt-2 inline-flex items-center rounded-full border border-border/70 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-foreground/5"
-          >
-            Book a call
-          </button>
+          <div className="mt-2 flex items-center justify-end gap-2">
+            <button
+              type="button"
+              data-cal-namespace={calNamespace}
+              data-cal-link={calLink}
+              data-cal-config={calConfig}
+              className="inline-flex items-center rounded-full border border-border/70 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-foreground/5"
+            >
+              Book a call
+            </button>
+            <Link
+              href="https://x.com/messages/compose?recipient_id=1833116571738259456"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Send a DM on X"
+              className="inline-flex items-center gap-1.5 rounded-full border border-border/70 px-3 py-1.5 text-xs font-medium text-foreground transition-colors hover:bg-foreground/5"
+            >
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                className="size-3.5 fill-current"
+              >
+                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.847h-7.406l-5.8-7.584-6.634 7.584H.478l8.6-9.83L0 1.153h7.594l5.243 6.932zm-1.29 19.493h2.04L6.486 3.24H4.298z" />
+              </svg>
+              DM on X
+            </Link>
+          </div>
         </div>
 
         <div

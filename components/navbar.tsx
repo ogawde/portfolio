@@ -22,6 +22,29 @@ export function Navbar() {
   const handleNavTabClick = useCallback((id: string) => {
     pendingSectionRef.current = id
     setActiveSection(id)
+
+    if (typeof window === "undefined") return
+
+    if (id === "home") {
+      window.scrollTo({ top: 0, behavior: "smooth" })
+      return
+    }
+
+    if (id === "contact") {
+      const contactSection = document.getElementById("contact")
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: "smooth", block: "start" })
+      } else {
+        window.scrollTo({
+          top: document.documentElement.scrollHeight,
+          behavior: "smooth",
+        })
+      }
+      return
+    }
+
+    const section = document.getElementById(id)
+    section?.scrollIntoView({ behavior: "smooth", block: "start" })
   }, [])
 
   useEffect(() => {
