@@ -34,6 +34,7 @@ export default function RootLayout({
           attribute="class"
           defaultTheme="dark"
           enableSystem
+          enableColorScheme={false}
           disableTransitionOnChange
         >
           <CursorifyProviderWrapper>

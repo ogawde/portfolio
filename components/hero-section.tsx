@@ -65,7 +65,7 @@ export function HeroSection() {
   const shouldReduceMotion = useReducedMotion()
   const calNamespace = "hero-book-call"
   const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? "your-username/30min"
-  const { calConfig, calTheme } = useCalEmbed(calNamespace)
+  const { calConfig } = useCalEmbed(calNamespace)
 
   return (
     <section className="mx-auto max-w-3xl px-6 pt-10 pb-10">
@@ -136,7 +136,6 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button
-              key={calTheme}
               className="gap-2"
               type="button"
               data-cal-namespace={calNamespace}

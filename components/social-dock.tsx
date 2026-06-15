@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useState } from "react"
 import { AnimatePresence, motion } from "motion/react"
 import { Check, Copy, Github } from "lucide-react"
 import { triggerHaptic } from "@/lib/utils"
@@ -99,7 +99,7 @@ export function SocialDock() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [copied, setCopied] = useState(false)
   const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? "your-username/30min"
-  const { calConfig, calTheme } = useCalEmbed(calNamespace)
+  const { calConfig } = useCalEmbed(calNamespace)
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -170,7 +170,6 @@ export function SocialDock() {
               </AnimatePresence>
               {item.isCal ? (
                 <button
-                  key={calTheme}
                   type="button"
                   data-cal-namespace={calNamespace}
                   data-cal-link={calLink}
