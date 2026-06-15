@@ -1,10 +1,10 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { getCalApi } from "@calcom/embed-react"
 import { AnimatePresence, motion } from "motion/react"
 import { Check, Copy, Github } from "lucide-react"
 import { triggerHaptic } from "@/lib/utils"
+import { useCalEmbed } from "@/hooks/use-cal-embed"
 
 const EMAIL = "currrycoder@gmail.com"
 const calNamespace = "footer-book-call"
@@ -99,23 +99,7 @@ export function SocialDock() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
   const [copied, setCopied] = useState(false)
   const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? "your-username/30min"
-  const calConfig = useMemo(
-    () =>
-      JSON.stringify({
-        layout: "month_view",
-        theme: "dark",
-      }),
-    []
-  )
-
-  useEffect(() => {
-    ;(async () => {
-      const cal = await getCalApi({ namespace: calNamespace })
-      cal("ui", {
-        hideEventTypeDetails: false,
-      })
-    })()
-  }, [])
+  const { calConfig, calTheme } = useCalEmbed(calNamespace)
 
   const handleCopy = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -186,6 +170,7 @@ export function SocialDock() {
               </AnimatePresence>
               {item.isCal ? (
                 <button
+                  key={calTheme}
                   type="button"
                   data-cal-namespace={calNamespace}
                   data-cal-link={calLink}

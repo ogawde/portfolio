@@ -2,7 +2,6 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { getCalApi } from "@calcom/embed-react"
 import { Button } from "@/components/ui/button"
 import {
   TypeScriptIcon,
@@ -19,7 +18,7 @@ import {
 import Typewriter from "@/components/fancy/text/typewriter"
 import { FileText, MessageCircle } from "lucide-react"
 import { motion, useReducedMotion } from "motion/react"
-import { useEffect, useMemo } from "react"
+import { useCalEmbed } from "@/hooks/use-cal-embed"
 
 const skills = [
   { name: "Typescript", icon: TypeScriptIcon, href: "https://www.typescriptlang.org/" },
@@ -66,23 +65,7 @@ export function HeroSection() {
   const shouldReduceMotion = useReducedMotion()
   const calNamespace = "hero-book-call"
   const calLink = process.env.NEXT_PUBLIC_CAL_LINK ?? "your-username/30min"
-  const calConfig = useMemo(
-    () =>
-      JSON.stringify({
-        layout: "month_view",
-        theme: "dark",
-      }),
-    []
-  )
-
-  useEffect(() => {
-    ;(async () => {
-      const cal = await getCalApi({ namespace: calNamespace })
-      cal("ui", {
-        hideEventTypeDetails: false,
-      })
-    })()
-  }, [])
+  const { calConfig, calTheme } = useCalEmbed(calNamespace)
 
   return (
     <section className="mx-auto max-w-3xl px-6 pt-10 pb-10">
@@ -153,6 +136,7 @@ export function HeroSection() {
               </Link>
             </Button>
             <Button
+              key={calTheme}
               className="gap-2"
               type="button"
               data-cal-namespace={calNamespace}
