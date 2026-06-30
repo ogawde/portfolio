@@ -14,7 +14,7 @@ export function CursorifyProviderWrapper({
       cursor={<PhingerCursor />}
       defaultCursorVisible={false}
       breakpoint={997}
-      delay={10}
+      delay={2}
     >
       {children}
     </CursorifyProvider>
